@@ -1,4 +1,4 @@
-namespace Mork.Mapping 
+namespace MorkSharp.Mapping 
 
 module internal MappingOntology =
 
@@ -7,7 +7,7 @@ module internal MappingOntology =
     open VDS.RDF
     open VDS.RDF.Ontology
     open VDS.RDF.Skos
-    open Mork.Vocab
+    open MorkSharp.Vocab
 
     type MorkProp =
         | ObjectProp of string * Lazy<MorkNode list>

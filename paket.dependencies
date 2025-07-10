@@ -4,6 +4,8 @@ nuget dotNetRdf.Ontology 3.4.0
 nuget dotNetRdf.Skos 3.4.0
 nuget FSharp.Core
 github TheAngryByrd/FsLibLog src/FsLibLog/FsLibLog.fs
+github hyperthunk/mork
+github hyperthunk/MorkSharp.TypeProviders
 
 group Build
 source https://www.nuget.org/api/v2

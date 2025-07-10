@@ -5,6 +5,9 @@
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="paket-files/hyperthunk/mork/spec/Mork.ttl"  />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="paket-files\TheAngryByrd\FsLibLog\src\FsLibLog\FsLibLog.fs">
       <Paket>True</Paket>
       <Link>paket-files/FsLibLog.fs</Link>

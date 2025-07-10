@@ -1,10 +1,47 @@
-namespace rec Mork
+namespace rec MorkSharp
 
-open System
-open VDS.RDF
 open VDS.RDF.Ontology
 
 module internal Vocab = 
+
+    module internal Constants = 
+        [<Literal>]        
+        let PrefLabel = "prefLabel"
+        [<Literal>]
+        let AltLabel = "altLabel"
+        [<Literal>]
+        let Note = "note"
+        [<Literal>]
+        let MorkMappingNote = "mappingNote"
+        [<Literal>]
+        let UserHasDeclined = "userDeclined" 
+        [<Literal>]
+        let SeeAlso = "seeAlso"
+        [<Literal>]
+        let Label = "label"
+        [<Literal>]
+        let Comment = "comment"
+        [<Literal>]
+        let IsDefinedBy = "isDefinedBylet "
+        [<Literal>]
+        let KeywordBroad = "broad"
+        [<Literal>]
+        let KeywordNarrow = "narrow"
+        [<Literal>]
+        let KeywordExact = "exact"
+        [<Literal>]
+        let KeywordCategory = "Category"
+        [<Literal>]
+        let KeywordMatch = "Match"
+        [<Literal>]
+        let KeywordIntransitiveExactMatch = "intransitiveExactMatch"
+        [<Literal>]
+        let KeywordTBox = "TBox"
+        [<Literal>]
+        let KeywordABox = "ABox"
+        [<Literal>]
+        let KeywordRBox = "RBox"
+
 
     module Prefixes =
         [<Literal>]
@@ -24,25 +61,6 @@ module internal Vocab =
         
         [<Literal>]
         let Owl = "http://www.w3.org/2002/07/owl#"
-
-    [<Literal>]        
-    let PrefLabel = "prefLabel"
-    [<Literal>]
-    let AltLabel = "altLabel"
-    [<Literal>]
-    let Note = "note"
-    [<Literal>]
-    let MorkMappingNote = "mappingNote"
-    [<Literal>]
-    let UserHasDeclined = "userDeclined" 
-    [<Literal>]
-    let SeeAlso = "seeAlso"
-    [<Literal>]
-    let Label = "label"
-    [<Literal>]
-    let Comment = "comment"
-    [<Literal>]
-    let IsDefinedBy = "isDefinedBy"
     
     let RdfType = "rdf:type"
 
@@ -59,22 +77,78 @@ module internal Vocab =
         | CustomAnnotation of string * string
 
     let MorkAnnotations = dict [
-        Prefixes.Mork + MorkMappingNote, MappingNote
-        Prefixes.Mork + UserHasDeclined, UserDeclined
-        Prefixes.Skos + PrefLabel, SkosPrefLabel
-        Prefixes.Skos + AltLabel, SkosAltLabel
-        Prefixes.Skos + Note, SkosNote
-        Prefixes.Rdfs + SeeAlso, RdfsSeeAlso
-        Prefixes.Rdfs + Label, RdfsLabel
-        Prefixes.Rdfs + Comment, RdfsComment
-        Prefixes.Rdfs + IsDefinedBy, RdfsIsDefinedBy
+        Prefixes.Mork + Constants.MorkMappingNote, MappingNote
+        Prefixes.Mork + Constants.UserHasDeclined, UserDeclined
+        Prefixes.Skos + Constants.PrefLabel, SkosPrefLabel
+        Prefixes.Skos + Constants.AltLabel, SkosAltLabel
+        Prefixes.Skos + Constants.Note, SkosNote
+        Prefixes.Rdfs + Constants.SeeAlso, RdfsSeeAlso
+        Prefixes.Rdfs + Constants.Label, RdfsLabel
+        Prefixes.Rdfs + Constants.Comment, RdfsComment
+        Prefixes.Rdfs + Constants.IsDefinedBy, RdfsIsDefinedBy
     ]
 
     type NamedConcept =
         abstract member QName : string
 
     let FQName (axiom:NamedConcept) = Prefixes.Mork + axiom.QName
+        
+    type SemanticRel =
+        | Associative of Box
 
+    [<Struct>]
+    type MatchType = 
+        | Broad of Box 
+        | Narrow of Box
+        | Exact of Box
+        | IntransitiveExact
+
+        interface NamedConcept with 
+            member this.QName
+                with get() = 
+                    let brd = Constants.KeywordBroad
+                    let nrw = Constants.KeywordNarrow
+                    let exa = Constants.KeywordExact
+                    let cat = Constants.KeywordCategory
+                    let mat = Constants.KeywordMatch
+                    in match this with
+                        | Broad box -> 
+                            $"{brd}{(box :> NamedConcept).QName}{cat}{mat}"
+                        | Narrow box -> 
+                            $"{nrw}{(box :> NamedConcept).QName}{cat}{mat}"
+                        | Exact box -> 
+                            $"{exa}{(box :> NamedConcept).QName}{mat}"
+                        | IntransitiveExact -> Constants.KeywordIntransitiveExactMatch
+
+    [<Struct>]
+    type Box = 
+        | TBox
+        | ABox
+        | RBox
+        | Category
+
+        interface NamedConcept with 
+            member this.QName
+                with get() = 
+                    match this with
+                    | TBox -> Constants.KeywordTBox
+                    | ABox -> Constants.KeywordABox
+                    | RBox -> Constants.KeywordRBox
+                    | Category -> ""
+
+    let BroadCategoryMatch = Broad Category
+    let BroadTBoxCategoryMatch = Broad TBox
+    let BroadABoxCategoryMatch = Broad ABox
+    let BroadRBoxCategoryMatch = Broad RBox
+    let NarrowCategoryMatch = Narrow Category
+    let NarrowTBoxCategoryMatch = Narrow TBox
+    let NarrowABoxCategoryMatch = Narrow ABox
+    let NarrowRBoxCategoryMatch = Narrow RBox
+    let IntransitiveExactMatch = IntransitiveExact
+    let ExactTBoxMatch = Exact TBox
+    let ExactABoxMatch = Exact ABox
+    let ExactRBoxMatch = Exact RBox
+    
     [<Struct>]
     type MorkConcept =
         | DataConcept
@@ -133,70 +207,7 @@ module internal Vocab =
         | true, thing -> thing
         | false, _    -> Other uri
 
-    [<Literal>]
-    let private KeywordBroad = "broad"
-    [<Literal>]
-    let private KeywordNarrow = "narrow"
-    [<Literal>]
-    let private KeywordExact = "exact"
-    [<Literal>]
-    let private KeywordCategory = "Category"
-    [<Literal>]
-    let private KeywordMatch = "Match"
-    [<Literal>]
-    let private KeywordIntransitiveExactMatch = "intransitiveExactMatch"
-    [<Literal>]
-    let private KeywordTBox = "TBox"
-    [<Literal>]
-    let private KeywordABox = "ABox"
-    [<Literal>]
-    let private KeywordRBox = "RBox"
-        
-    [<Struct>]
-    type MatchType = 
-        | Broad of Box 
-        | Narrow of Box
-        | Exact of Box
-        | IntransitiveExact
-
-        interface NamedConcept with 
-            member this.QName
-                with get() = 
-                    match this with
-                    | Broad box -> 
-                        $"{KeywordBroad}{(box :> NamedConcept).QName}{KeywordCategory}{KeywordMatch}"
-                    | Narrow box -> 
-                        $"{KeywordNarrow}{(box :> NamedConcept).QName}{KeywordCategory}{KeywordMatch}"
-                    | Exact box -> 
-                        $"{KeywordExact}{(box :> NamedConcept).QName}{KeywordMatch}"
-                    | IntransitiveExact -> KeywordIntransitiveExactMatch
-
-    [<Struct>]
-    type Box = 
-        | TBox
-        | ABox
-        | RBox
-        | Category
-
-        interface NamedConcept with 
-            member this.QName
-                with get() = 
-                    match this with
-                    | TBox -> KeywordTBox
-                    | ABox -> KeywordABox
-                    | RBox -> KeywordRBox
-                    | Category -> ""
-
-    let BroadCategoryMatch = Broad Category
-    let BroadTBoxCategoryMatch = Broad TBox
-    let BroadABoxCategoryMatch = Broad ABox
-    let BroadRBoxCategoryMatch = Broad RBox
-    let NarrowCategoryMatch = Narrow Category
-    let NarrowTBoxCategoryMatch = Narrow TBox
-    let NarrowABoxCategoryMatch = Narrow ABox
-    let NarrowRBoxCategoryMatch = Narrow RBox
-    let IntransitiveExactMatch = IntransitiveExact
-    let ExactTBoxMatch = Exact TBox
-    let ExactABoxMatch = Exact ABox
-    let ExactRBoxMatch = Exact RBox
-    
+    let PropertyTypes = 
+        Map [
+            Prefixes.Mork + "associativeNarrower", Narrow TBox 
+        ]

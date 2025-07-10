@@ -1,6 +1,5 @@
 ﻿namespace Mork
 
-open Mork.Vocab
 open VDS.RDF
 
 // open OWLSharp.Extensions.Mork.MorkVocabulary
@@ -12,39 +11,35 @@ module CommandLine =
     open VDS.RDF.Ontology
     open VDS.RDF.Skos
     open VDS.RDF.Parsing
-    open Mork.Graph
-    open Mork.Vocab.Prefixes
+    open MorkSharp.Graph
+    open MorkSharp.Vocab.Prefixes
+    open MorkSharp.TypeProviders
 
 
     [<EntryPoint>]
     let main args =
-        printfn $"Arguments passed to function : {args}"
-        let g = new OntologyGraph()
-        
-        let loader = new Loader()
-        loader.LoadGraph(g, Uri "file:///Users/t4/work/mork/spec/Mork.ttl")
-        loader.LoadGraph(g, Uri args[0])
-        
-        // FileLoader.Load(g, args[0]);
 
-        let skos = new SkosGraph(g)        
+        // Get a specific property
+        let p = MorkProperty.BroadCategoryMatch
+        printfn "Name: %s, IRI: %s" p.Name p.Iri
+
+        // Enumerate all properties
+        for prop in MorkProperty.All do
+            printfn "Property: %s IRI: %s" prop.Name prop.Iri
+
+        // Use a custom property IRI
+        let custom = MorkProperty.CreateCustom("http://www.example.org/ont#myProp")
+        printfn "Custom: %s %s" custom.Name custom.Iri
+
+        printfn $"Processing: {args}"
         
-        // skos.Nodes |> Seq.iter (fun n -> printfn "Skos node: %A" skos.ConceptSchemes)
+        let mg = loadMappingOntology (Uri args[0])
         
-        let mg = MappingGraph(g, skos)
         let repScheme = mg.GetRepScheme
         printfn "Loaded Mork Ontology with %A" repScheme.Resource
         
-        let nodeId(n: INode) : Uri =
-            match n with
-                | :? IUriNode as uriNode ->
-                    uriNode.Uri
-                | _ -> null
-        
         printfn "PRINTING GRAPH NODES"
-        g.Nodes
-            |> Seq.filter (fun n -> n.NodeType.Equals VDS.RDF.NodeType.Uri)
-            |> Seq.iter (fun (n: INode) -> printfn $"Node-{nodeId n}; {g.GetTriplesWithSubject n}")
+        mg.print()
         
         let mappings = mg.GetMappings()
         printfn "Loaded Mappings %A" mappings
