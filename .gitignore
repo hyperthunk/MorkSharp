@@ -25,7 +25,6 @@ bld/
 
 # dependency management
 .fake
-/.paket
 paket.lock
 
 # .NET Core
