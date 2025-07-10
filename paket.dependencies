@@ -1,0 +1,11 @@
+source https://api.nuget.org/v3/index.json
+
+nuget dotNetRdf.Ontology 3.4.0
+nuget dotNetRdf.Skos 3.4.0
+nuget FSharp.Core
+github TheAngryByrd/FsLibLog src/FsLibLog/FsLibLog.fs
+
+group Build
+source https://www.nuget.org/api/v2
+
+nuget FAKE

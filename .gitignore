@@ -23,6 +23,11 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# dependency management
+.fake
+/.paket
+paket.lock
+
 # .NET Core
 project.lock.json
 project.fragment.lock.json
@@ -30,6 +35,10 @@ artifacts/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
+
+# IDE stuff
+.idea/
+Folder.DotSettings.user
 
 # NuGet Packages
 *.nupkg
@@ -39,7 +48,15 @@ ScaffoldingReadMe.txt
 # Others
 ~$*
 *~
+ignored_files/
 CodeCoverage/
+
+# paket
+packages/
+packet-files/
+paket-files/.DS_Store
+paket-files/*
+
 
 # MSBuild Binary and Structured Log
 *.binlog
@@ -48,7 +65,7 @@ CodeCoverage/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-# NUnit
+# NUnit & paket
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
