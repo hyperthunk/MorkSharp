@@ -1,16 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="paket-files/hyperthunk/mork/spec/Mork.ttl"  />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MorkSharp.TypeProviders\MorkSharp.TypeProviders.fsproj" />
-  </ItemGroup>
+
   <ItemGroup>
     <Compile Include="paket-files\TheAngryByrd\FsLibLog\src\FsLibLog\FsLibLog.fs">
       <Paket>True</Paket>
@@ -21,11 +16,12 @@
     <Compile Include="MorkOntology.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="FSharp.TypeProviders.SDK" Version="8.1.0" />
+    <Reference Include="MorkSharp.TypeProviders">
+      <HintPath>paket-files/hyperthunk/MorkSharp.TypeProviders/bin/Debug/net9.0/MorkSharp.TypeProviders.dll</HintPath>
+    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="9.0.300" />
-  </ItemGroup>
+
   <Import Project=".paket\Paket.Restore.targets" />
 </Project>

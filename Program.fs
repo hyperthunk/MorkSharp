@@ -1,4 +1,4 @@
-﻿namespace Mork
+﻿namespace MorkSharp
 
 open VDS.RDF
 

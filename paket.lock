@@ -373,13 +373,13 @@ NUGET
 GITHUB
   remote: TheAngryByrd/FsLibLog
     src/FsLibLog/FsLibLog.fs (64f118ae8df2f2944ef69758052cb3b148b87e79)
-  remote: hyperthunk/mork
-    FULLPROJECT (46b6332e1614e77607658b94313d74f6adf4de95)
   remote: hyperthunk/MorkSharp.TypeProviders
-    FULLPROJECT (bb461bbde6acc93e0355b85fac3d30bb0b5c7cfb)
+    FULLPROJECT (8accfc68da0931747519361cb359169c636a9212)
       dotNetRdf.Ontology (3.4)
       dotNetRdf.Skos (3.4)
       FSharp.TypeProviders.SDK (8.1)
+  remote: hyperthunk/mork
+    spec/Mork.ttl (46b6332e1614e77607658b94313d74f6adf4de95)
 GROUP Build
 NUGET
   remote: https://www.nuget.org/api/v2
