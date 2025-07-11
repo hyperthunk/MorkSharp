@@ -5,7 +5,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-
+  <ItemGroup>
+    <EmbeddedResource Include="paket-files/hyperthunk/mork/spec/Mork.ttl"  />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="paket-files\TheAngryByrd\FsLibLog\src\FsLibLog\FsLibLog.fs">
       <Paket>True</Paket>
@@ -16,12 +18,5 @@
     <Compile Include="MorkOntology.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="MorkSharp.TypeProviders">
-      <HintPath>paket-files/hyperthunk/MorkSharp.TypeProviders/bin/Debug/net9.0/MorkSharp.TypeProviders.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Import Project=".paket\Paket.Restore.targets" />
 </Project>

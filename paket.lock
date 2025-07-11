@@ -20,8 +20,6 @@ NUGET
     dotNetRdf.Skos (3.4)
       dotNetRdf.Core (>= 3.4) - restriction: >= netstandard2.0
     FSharp.Core (9.0.300)
-    FSharp.TypeProviders.SDK (8.1)
-      FSharp.Core (>= 4.7.2) - restriction: >= netstandard2.0
     HtmlAgilityPack (1.12.1) - restriction: >= netstandard2.0
     Microsoft.Extensions.Configuration (9.0.7) - restriction: >= netstandard2.0
       Microsoft.Extensions.Configuration.Abstractions (>= 9.0.7) - restriction: || (>= net462) (>= netstandard2.0)
@@ -373,11 +371,6 @@ NUGET
 GITHUB
   remote: TheAngryByrd/FsLibLog
     src/FsLibLog/FsLibLog.fs (64f118ae8df2f2944ef69758052cb3b148b87e79)
-  remote: hyperthunk/MorkSharp.TypeProviders
-    FULLPROJECT (8accfc68da0931747519361cb359169c636a9212)
-      dotNetRdf.Ontology (3.4)
-      dotNetRdf.Skos (3.4)
-      FSharp.TypeProviders.SDK (8.1)
   remote: hyperthunk/mork
     spec/Mork.ttl (46b6332e1614e77607658b94313d74f6adf4de95)
 GROUP Build

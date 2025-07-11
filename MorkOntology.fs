@@ -22,7 +22,7 @@ module internal MappingOntology =
 
     let private annotationOfString (propUri:string) (value:string) =
         MorkAnnotations.TryGetValue(propUri) |> function
-            | true, ctor -> ctor value
+            | true, ctor -> ctor // value # TODO: we _might_ want to re-introduce this... 
             | false, _ -> CustomAnnotation(propUri, value)
 
     let nodeUriString (n:INode) =
