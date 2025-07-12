@@ -167,3 +167,13 @@ module Graph =
         // skos.Nodes |> Seq.iter (fun n -> printfn "Skos node: %A" skos.ConceptSchemes)
         
         MappingGraph(g, skos)
+
+    let loadMappingOntologyEmbedded (uri: Uri) : MappingGraph =
+        let g = new OntologyGraph()
+        EmbeddedResourceLoader.Load(g, "MorkSharp.Mork.ttl, MorkSharp")
+        let loader = new Loader()
+        loader.LoadGraph(g, uri)
+        
+        let skos = new SkosGraph(g)
+
+        MappingGraph(g, skos)

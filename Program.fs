@@ -19,7 +19,7 @@ module CommandLine =
 
         printfn $"Processing: {args}"
         
-        let mg = loadMappingOntology (Uri args[0])
+        let mg = loadMappingOntologyEmbedded (Uri args[0])
         
         let repScheme = mg.GetRepScheme
         printfn "Loaded Mork Ontology with %A" repScheme.Resource
